@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -68,3 +72,18 @@ foxdb_bin_t* foxdb_bin(const char* name, uint64_t cid, uint64_t size, uint8_t* v
 
 void* foxdb_from_file(FILE* db);
 void foxdb_to_file(void* foxdb, FILE* db);
+
+#define SYSDB(sysdb, rootfs) void* sysdb = NULL; \
+	{ \
+		char path[128] = { 0 };  \
+		sprintf(path, "%s/FOXCFG/sys.fdb", rootfs); \
+		FILE* f = fopen(path, "rb"); \
+		if (f == NULL) goto no_db; \
+		sysdb = foxdb_from_file(f); \
+		fclose(f); \
+	no_db:; \
+	}
+
+#ifdef __cplusplus
+}
+#endif
