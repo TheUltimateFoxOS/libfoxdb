@@ -175,6 +175,23 @@ void* foxdb_update(void* foxdb, foxdb_entry_t* new_entry) {
 	return foxdb;
 }
 
+bool foxdb_is_key(void* foxdb, const char* key) {
+	foxdb_file_header_t* header = (foxdb_file_header_t*) foxdb;
+
+	uint64_t curr_offset = sizeof(foxdb_file_header_t);
+	
+	while (curr_offset < header->size) {
+		foxdb_entry_t* curr = (foxdb_entry_t*) &((uint8_t*) header)[curr_offset];
+		if (strncmp(curr->key, key, FOXDB_KEY_MAX) == 0) {
+			return true;
+		}
+
+		curr_offset += curr->size;
+	}
+
+	return false;
+}
+
 void* foxdb_from_file(FILE* db) {
 	fseek(db, 0, SEEK_END);
 	int s = ftell(db);

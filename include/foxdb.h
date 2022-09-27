@@ -72,6 +72,8 @@ foxdb_bin_t* foxdb_bin(const char* name, uint64_t cid, uint64_t size, uint8_t* v
 
 void* foxdb_update(void* foxdb, foxdb_entry_t* new_entry);
 
+bool foxdb_is_key(void* foxdb, const char* key);
+
 void* foxdb_from_file(FILE* db);
 void foxdb_to_file(void* foxdb, FILE* db);
 
