@@ -70,6 +70,8 @@ foxdb_str_t* foxdb_str(const char* name, const char* value);
 foxdb_float_t* foxdb_float(const char* name, float value);
 foxdb_bin_t* foxdb_bin(const char* name, uint64_t cid, uint64_t size, uint8_t* value);
 
+void* foxdb_update(void* foxdb, foxdb_entry_t* new_entry);
+
 void* foxdb_from_file(FILE* db);
 void foxdb_to_file(void* foxdb, FILE* db);
 

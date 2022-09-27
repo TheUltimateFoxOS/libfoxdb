@@ -164,6 +164,17 @@ foxdb_bin_t* foxdb_bin(const char* name, uint64_t cid, uint64_t size, uint8_t* v
 	return e;
 }
 
+void* foxdb_update(void* foxdb, foxdb_entry_t* new_entry) {
+	foxdb_entry_t* old = foxdb_get(foxdb, new_entry->key);
+	assert(old != NULL);
+	foxdb_del_entry(old);
+
+	foxdb = foxdb_remove(foxdb, new_entry->key);
+	foxdb = foxdb_insert(foxdb, new_entry);
+
+	return foxdb;
+}
+
 void* foxdb_from_file(FILE* db) {
 	fseek(db, 0, SEEK_END);
 	int s = ftell(db);
